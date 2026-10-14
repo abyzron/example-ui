@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as PlaylistsIdRouteImport } from './routes/playlists.$id'
 import { Route as WatchIdRouteImport } from './routes/watch.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +25,16 @@ const SearchRoute = SearchRouteImport.update({
   path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaylistsIdRoute = PlaylistsIdRouteImport.update({
+  id: '/playlists/$id',
+  path: '/playlists/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WatchIdRoute = WatchIdRouteImport.update({
   id: '/watch/$id',
   path: '/watch/$id',
@@ -32,30 +44,39 @@ const WatchIdRoute = WatchIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/playlists/$id': typeof PlaylistsIdRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/playlists/$id': typeof PlaylistsIdRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/search': typeof SearchRoute
+  '/settings': typeof SettingsRoute
+  '/playlists/$id': typeof PlaylistsIdRoute
   '/watch/$id': typeof WatchIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/search' | '/watch/$id'
+  fullPaths: '/' | '/search' | '/settings' | '/playlists/$id' | '/watch/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/search' | '/watch/$id'
-  id: '__root__' | '/' | '/search' | '/watch/$id'
+  to: '/' | '/search' | '/settings' | '/playlists/$id' | '/watch/$id'
+  id:
+    '__root__' | '/' | '/search' | '/settings' | '/playlists/$id' | '/watch/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SearchRoute: typeof SearchRoute
+  SettingsRoute: typeof SettingsRoute
+  PlaylistsIdRoute: typeof PlaylistsIdRoute
   WatchIdRoute: typeof WatchIdRoute
 }
 
@@ -75,6 +96,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/playlists/$id': {
+      id: '/playlists/$id'
+      path: '/playlists/$id'
+      fullPath: '/playlists/$id'
+      preLoaderRoute: typeof PlaylistsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/watch/$id': {
       id: '/watch/$id'
       path: '/watch/$id'
@@ -88,6 +123,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SearchRoute: SearchRoute,
+  SettingsRoute: SettingsRoute,
+  PlaylistsIdRoute: PlaylistsIdRoute,
   WatchIdRoute: WatchIdRoute,
 }
 export const routeTree = rootRouteImport
